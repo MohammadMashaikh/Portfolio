@@ -5,9 +5,9 @@ const Projects = () => {
   const projects = [
     {
       title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment processing, and admin dashboard.",
+      description: "A full-stack e-commerce solution with PHP Laravel, Javascript, and MySQL. Features include user authentication, permissions, and admin dashboard.",
       image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500",
-      technologies: ["React", "Node.js", "MongoDB", "Express", "Stripe"],
+      technologies: ["Laravel", "Javascript", "jQuery", "CSS",  "Bootstrap", "Spatie Media", "Spatie Permissions", "MySQL"],
       liveUrl: "#",
       githubUrl: "#"
     },

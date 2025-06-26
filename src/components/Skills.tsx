@@ -1,36 +1,36 @@
 
-import { Database, Globe, Palette, Server, Smartphone, Zap } from 'lucide-react';
+import { Database, Globe, Palette, Server, Zap, Shield } from 'lucide-react';
 
 const Skills = () => {
   const skillCategories = [
     {
       title: "Frontend Development",
       icon: <Globe className="w-8 h-8" />,
-      skills: ["HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Vue.js", "Angular", "Tailwind CSS"],
+      skills: ["HTML5", "CSS3", "JavaScript", "jQuery", "Vue.js", "Bootstrap", "Tailwind CSS"],
       color: "from-blue-500 to-cyan-500"
     },
     {
       title: "Backend Development",
       icon: <Server className="w-8 h-8" />,
-      skills: ["Node.js", "Python", "PHP", "Express.js", "Django", "Laravel", "REST APIs", "GraphQL"],
+      skills: ["PHP", "Laravel", "CodeIgniter", "ASP.Net" , "C++" ,"REST APIs"],
       color: "from-green-500 to-emerald-500"
     },
     {
       title: "Database & Tools",
       icon: <Database className="w-8 h-8" />,
-      skills: ["MySQL", "PostgreSQL", "MongoDB", "Redis", "Git", "Docker", "AWS", "Firebase"],
+      skills: ["MySQL", "MSSQL", "Redis", "Git", "Github" ,"Azure", "Firebase"],
       color: "from-purple-500 to-violet-500"
     },
     {
-      title: "Mobile Development",
-      icon: <Smartphone className="w-8 h-8" />,
-      skills: ["React Native", "Flutter", "Ionic", "Progressive Web Apps", "Mobile-First Design"],
+      title: "API Development",
+      icon: <Zap className="w-8 h-8" />,
+      skills: ["REST APIs", "Postman", "OAuth", "API Documentation"],
       color: "from-pink-500 to-rose-500"
     },
-    {
-      title: "Design & UX",
-      icon: <Palette className="w-8 h-8" />,
-      skills: ["UI/UX Design", "Figma", "Adobe XD", "Responsive Design", "Accessibility", "User Research"],
+     {
+      title: "Security & Best Practices",
+      icon: <Shield className="w-8 h-8" />,
+      skills: ["Authentication", "Authorization", "Secure Coding", "Input Validation", "OWASP"],
       color: "from-orange-500 to-amber-500"
     },
     {

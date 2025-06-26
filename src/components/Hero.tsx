@@ -27,19 +27,18 @@ const Hero = () => {
             Web Application Developer
           </h2>
           <p className="text-lg text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Crafting exceptional digital experiences with modern web technologies. 
-            Passionate about creating scalable, user-friendly applications that make a difference.
+            Building robust, scalable web applications with PHP and Laravel. Focused on clean code, performance, and real-world solutions.
           </p>
           
           {/* Social Links */}
           <div className="flex justify-center space-x-6 mb-12">
-            <a href="#" className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
+            <a href="https://github.com/MohammadMashaikh" className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
               <Github className="w-6 h-6 text-slate-300 group-hover:text-white" />
             </a>
-            <a href="#" className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
+            <a href="https://www.linkedin.com/in/mohammad-mashaikh/" className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
               <Linkedin className="w-6 h-6 text-slate-300 group-hover:text-white" />
             </a>
-            <a href="#" className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
+            <a href="mailto:mohammadmashaikh@outlook.com" className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110">
               <Mail className="w-6 h-6 text-slate-300 group-hover:text-white" />
             </a>
           </div>

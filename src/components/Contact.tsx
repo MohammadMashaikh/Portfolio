@@ -1,6 +1,8 @@
-
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,8 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -19,10 +23,23 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
-    alert('Thank you for your message! I\'ll get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setLoading(true);
+
+    const serviceID = 'service_8dluq1w';       // Your EmailJS service ID
+    const templateID = 'template_5kbxylb';     // Your EmailJS template ID
+    const publicKey = '-08J8OTZy12fiPVAH';     // Your EmailJS public key
+
+    emailjs.send(serviceID, templateID, formData, publicKey)
+      .then(() => {
+        toast.success("Thank you for your message! I'll get back to you soon.");
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setLoading(false);
+      })
+      .catch((error) => {
+        toast.error("Oops! Something went wrong. Please try again later.");
+        console.error('EmailJS error:', error);
+        setLoading(false);
+      });
   };
 
   return (
@@ -55,7 +72,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-medium">Email</h4>
-                  <p className="text-slate-300">mohammad.almashaikh@email.com</p>
+                  <p className="text-slate-300">mohammadmashaikh@outlook.com</p>
                 </div>
               </div>
 
@@ -65,7 +82,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-medium">Phone</h4>
-                  <p className="text-slate-300">+1 (555) 123-4567</p>
+                  <p className="text-slate-300">+962 (789447358)</p>
                 </div>
               </div>
 
@@ -98,6 +115,7 @@ const Contact = () => {
                     required
                     className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     placeholder="John Doe"
+                    disabled={loading}
                   />
                 </div>
                 <div>
@@ -113,6 +131,7 @@ const Contact = () => {
                     required
                     className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     placeholder="john@example.com"
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -130,6 +149,7 @@ const Contact = () => {
                   required
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Project Discussion"
+                  disabled={loading}
                 />
               </div>
 
@@ -146,15 +166,17 @@ const Contact = () => {
                   rows={5}
                   className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
                   placeholder="Tell me about your project..."
+                  disabled={loading}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50"
               >
                 <Send className="w-5 h-5" />
-                Send Message
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
@@ -163,10 +185,11 @@ const Contact = () => {
         {/* Footer */}
         <div className="mt-20 pt-8 border-t border-slate-700 text-center">
           <p className="text-slate-400">
-            © 2024 Mohammad Al-Mashaikh. Built with passion and modern web technologies.
+            © {new Date().getFullYear()} Mohammad Al-Mashaikh. Built with passion and modern web technologies.
           </p>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={4000} />
     </section>
   );
 };

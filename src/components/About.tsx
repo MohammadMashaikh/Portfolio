@@ -10,15 +10,16 @@ const About = () => {
             About <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Me</span>
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            I'm a passionate web application developer with a keen eye for detail and a love for creating 
-            innovative solutions that bridge the gap between design and functionality.
+             I'm a dedicated PHP and Laravel developer specializing in building robust, scalable web applications.  
+             With a focus on clean, maintainable code and seamless user experiences, I bring ideas to life by combining backend efficiency with modern frontend techniques.  
+             I enjoy tackling complex challenges and continuously learning to stay ahead in the fast-evolving web development landscape.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <p className="text-slate-300 leading-relaxed text-lg">
-              With several years of experience in web development, I specialize in building modern, 
+              I specialize in building modern, 
               responsive applications using cutting-edge technologies. I believe in writing clean, 
               maintainable code and creating user experiences that are both beautiful and functional.
             </p>
@@ -30,11 +31,11 @@ const About = () => {
             
             <div className="grid grid-cols-2 gap-6 mt-8">
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-400 mb-2">50+</div>
+                <div className="text-3xl font-bold text-blue-400 mb-2">30+</div>
                 <div className="text-slate-400">Projects Completed</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-purple-400 mb-2">3+</div>
+                <div className="text-3xl font-bold text-purple-400 mb-2">2+</div>
                 <div className="text-slate-400">Years Experience</div>
               </div>
             </div>
