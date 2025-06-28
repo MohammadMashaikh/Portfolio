@@ -7,7 +7,7 @@ const Hero = () => {
   };
 
   return (
-    <section id='hero' className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden mt-24 md:mt-14">
+    <section id='hero' className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden mt-28 md:mt-14">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-20">
         <div className="w-full h-full bg-slate-700 bg-opacity-10" style={{
