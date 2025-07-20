@@ -1,5 +1,6 @@
 
 import { ExternalLink, Github } from 'lucide-react';
+import weatherImage from '../assets/weather.png';  // Adjust the path based on your file structure
 
 const Projects = () => {
   const projects = [
@@ -22,18 +23,18 @@ const Projects = () => {
     {
       title: "Weather Dashboard",
       description: "An interactive weather application with location-based forecasts, historical data visualization, and responsive design for all devices.",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500",
-      technologies: ["JavaScript", "Chart.js", "OpenWeather API", "CSS3"],
+      image: weatherImage,
+      technologies: ["PHP", "JavaScript", "Chart.js", "OpenWeather API", "CSS3", "Tailwind CSS"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "https://github.com/MohammadMashaikh/Weather-App-PHP"
     },
     {
-      title: "Social Media Analytics",
-      description: "A comprehensive analytics dashboard for social media metrics with real-time data processing and interactive visualizations.",
+      title: "Event API Project",
+      description: "A Event API built in laravel and follow the Restfull API",
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=500",
       technologies: ["React", "D3.js", "Python", "PostgreSQL"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "https://github.com/MohammadMashaikh/Event-Api-Laravel-Project"
     },
     {
       title: "Restaurant Ordering System",
