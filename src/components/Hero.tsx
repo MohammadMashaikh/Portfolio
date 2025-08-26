@@ -1,4 +1,5 @@
 import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react';
+import MyImage from "../assets/My_Image_second.jpg";
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
@@ -26,7 +27,7 @@ const Hero = () => {
           {/* Profile Image */}
           <div className="flex justify-center mb-8">
             <img
-              src="/src/assets/My_Image_second.jpg"
+              src={MyImage}
               alt="Mohammad Al-Mashaikh"
               className="w-[300px] h-[300px] rounded-full border-4 border-blue-500 shadow-lg object-center"
             />
