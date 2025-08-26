@@ -6,19 +6,19 @@ const Projects = () => {
   const projects = [
     {
       title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with PHP Laravel, Javascript, and MySQL. Features include user authentication, permissions, and admin dashboard.",
+      description: "A full-stack e-commerce solution with PHP Laravel, Livewire, AlpineJS, Javascript, and MySQL. Features include user authentication, permissions, and admin dashboard and Full ready API.",
       image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500",
-      technologies: ["Laravel", "Javascript", "jQuery", "CSS",  "Bootstrap", "Spatie Media", "Spatie Permissions", "MySQL"],
+      technologies: ["Laravel", "Livewire", "AlpineJS", "Javascript", "Passport Api Authentication" , "Sanctum Web Authentication" ,"HTML",  "Tailwind CSS", "Spatie Media", "Gates Permissions", "MySQL"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "https://github.com/MohammadMashaikh/E-Commerce-App"
     },
     {
       title: "Task Management App",
-      description: "A collaborative project management tool with real-time updates, file sharing, and team communication features built with modern web technologies.",
+      description: "A collaborative project management tool with live CRUD functionalities without reloading the page using Livewire and AlpineJS.",
       image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500",
-      technologies: ["Vue.js", "Firebase", "Tailwind CSS", "Socket.io"],
+      technologies: ["Laravel", "Livewire", "Alpine JS", "HTML" ,"Tailwind CSS", "MySQL", "Postman"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "https://github.com/MohammadMashaikh/Task_CRUD_App_Livewire"
     },
     {
       title: "Weather Dashboard",
@@ -32,7 +32,7 @@ const Projects = () => {
       title: "Event API Project",
       description: "A Event API built in laravel and follow the Restfull API",
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=500",
-      technologies: ["React", "D3.js", "Python", "PostgreSQL"],
+      technologies: ["Laravel", "Sanctum Api Authentication" , "Gates", "Policies", "Event Scheduling" ,"Postman"],
       liveUrl: "#",
       githubUrl: "https://github.com/MohammadMashaikh/Event-Api-Laravel-Project"
     },
@@ -40,7 +40,7 @@ const Projects = () => {
       title: "Restaurant Ordering System",
       description: "A mobile-first ordering platform for restaurants with menu management, order tracking, and payment integration.",
       image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=500",
-      technologies: ["React Native", "Express", "MySQL", "PayPal API"],
+      technologies: ["Laravel", "Livewire", "Alpine JS", "HTML" ,"Tailwind CSS", "MySQL", "Postman"],
       liveUrl: "#",
       githubUrl: "#"
     },
@@ -48,7 +48,7 @@ const Projects = () => {
       title: "Learning Management System",
       description: "An educational platform with course creation, progress tracking, and interactive learning tools for students and instructors.",
       image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=500",
-      technologies: ["Angular", "Spring Boot", "PostgreSQL", "WebRTC"],
+      technologies: ["Laravel", "Livewire", "Alpine JS", "HTML" ,"Tailwind CSS", "MySQL", "Postman"],
       liveUrl: "#",
       githubUrl: "#"
     }

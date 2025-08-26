@@ -12,7 +12,7 @@ const Skills = () => {
     {
       title: "Backend Development",
       icon: <Server className="w-8 h-8" />,
-      skills: ["PHP", "Laravel", "CodeIgniter", "ASP.Net" , "C++" ,"REST APIs"],
+      skills: ["PHP", "Laravel", "Livewire", "AlpineJs" ,"CodeIgniter", "ASP.Net" , "C++" ,"REST APIs"],
       color: "from-green-500 to-emerald-500"
     },
     {
@@ -24,13 +24,13 @@ const Skills = () => {
     {
       title: "API Development",
       icon: <Zap className="w-8 h-8" />,
-      skills: ["REST APIs", "Postman", "OAuth", "API Documentation"],
+      skills: ["REST APIs", "Postman", "OAuth", "Laravel Sanctum Api", "Laravel Paspport Api" ,"API Documentation"],
       color: "from-pink-500 to-rose-500"
     },
      {
       title: "Security & Best Practices",
       icon: <Shield className="w-8 h-8" />,
-      skills: ["Authentication", "Authorization", "Secure Coding", "Input Validation", "OWASP"],
+      skills: ["Authentication", "Authorization", "Secure Coding", "Input Validation", "OWASP", "Middlewares"],
       color: "from-orange-500 to-amber-500"
     },
     {
