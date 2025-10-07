@@ -9,7 +9,7 @@ const Projects = () => {
       description: "A full-stack e-commerce solution with PHP Laravel, Livewire, AlpineJS, Javascript, and MySQL. Features include user authentication, permissions, and admin dashboard and Full ready API.",
       image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500",
       technologies: ["Laravel", "Livewire", "AlpineJS", "Javascript", "Passport Api Authentication" , "Sanctum Web Authentication" ,"HTML",  "Tailwind CSS", "Spatie Media", "Gates Permissions", "MySQL"],
-      liveUrl: "#",
+      liveUrl: "https://e-commerce-app-production-3fe7.up.railway.app",
       githubUrl: "https://github.com/MohammadMashaikh/E-Commerce-App"
     },
     {
@@ -18,7 +18,7 @@ const Projects = () => {
       image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500",
       technologies: ["Laravel", "Livewire", "Alpine JS", "HTML" ,"Tailwind CSS", "MySQL", "Postman"],
       liveUrl: "#",
-      githubUrl: "https://github.com/MohammadMashaikh/Task_CRUD_App_Livewire"
+      githubUrl: "https://github.com/MohammadMashaikh/Task_CRUD_App_Livewire",
     },
     {
       title: "Weather Dashboard",
@@ -46,11 +46,11 @@ const Projects = () => {
     },
     {
       title: "Learning Management System",
-      description: "An educational platform with course creation, progress tracking, and interactive learning tools for students and instructors.",
+      description: "TaalemHub An educational platform with course creation, progress tracking, and interactive learning tools for students and instructors.",
       image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=500",
-      technologies: ["Laravel", "Livewire", "Alpine JS", "HTML" ,"Tailwind CSS", "MySQL", "Postman"],
+      technologies: ["Laravel", "Livewire", "Alpine JS", "HTML" ,"Tailwind CSS", "MySQL", "Postman", "OAuth 2.0", "Spatie Media", "Spate Permissions", "Javascript", "jQuery"],
       liveUrl: "#",
-      githubUrl: "#"
+      githubUrl: "https://github.com/MohammadMashaikh/TaalemHub"
     }
   ];
 
@@ -97,6 +97,7 @@ const Projects = () => {
                   <a 
                     href={project.liveUrl}
                     className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors group"
+                    target='_blank'
                   >
                     <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span className="text-sm">Live Demo</span>
@@ -104,6 +105,7 @@ const Projects = () => {
                   <a 
                     href={project.githubUrl}
                     className="flex items-center gap-2 text-slate-400 hover:text-slate-300 transition-colors group"
+                    target='_blank'
                   >
                     <Github className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span className="text-sm">Source Code</span>

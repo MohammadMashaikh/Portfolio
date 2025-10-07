@@ -1,5 +1,5 @@
 import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react';
-import MyImage from "../assets/My_Image_second.jpg";
+import MyImage from "../assets/Portfolio_image.jpeg";
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
@@ -25,11 +25,11 @@ const Hero = () => {
       <div className="text-center z-10 px-6 max-w-4xl">
         <div className="animate-fade-in">
           {/* Profile Image */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-8 mt-12">
             <img
               src={MyImage}
               alt="Mohammad Al-Mashaikh"
-              className="w-[300px] h-[300px] rounded-full border-4 border-blue-500 shadow-lg object-center"
+              className="w-[400px] h-[400px] rounded-full border-4 border-blue-500 shadow-lg object-center"
             />
           </div>
 
