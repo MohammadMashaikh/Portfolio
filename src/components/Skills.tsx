@@ -1,77 +1,83 @@
-
-import { Database, Globe, Palette, Server, Zap, Shield } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 const Skills = () => {
+  const skillsRef = useRef<HTMLDivElement>(null);
+
   const skillCategories = [
     {
-      title: "Frontend Development",
-      icon: <Globe className="w-8 h-8" />,
-      skills: ["HTML5", "CSS3", "JavaScript", "jQuery", "Vue.js", "Bootstrap", "Tailwind CSS"],
-      color: "from-blue-500 to-cyan-500"
+      icon: '🚀',
+      title: 'Backend Frameworks',
+      tags: ['Laravel', 'CodeIgniter', 'Livewire', 'ASP.Net'],
     },
     {
-      title: "Backend Development",
-      icon: <Server className="w-8 h-8" />,
-      skills: ["PHP", "Laravel", "Livewire", "AlpineJs" ,"CodeIgniter", "ASP.Net" , "C++" ,"REST APIs"],
-      color: "from-green-500 to-emerald-500"
+      icon: '⚡',
+      title: 'Frontend Technologies',
+      tags: ['Vue.js', 'Alpine.js', 'jQuery', 'JavaScript'],
     },
     {
-      title: "Database & Tools",
-      icon: <Database className="w-8 h-8" />,
-      skills: ["MySQL", "MSSQL", "Redis", "Git", "Github" ,"Azure", "Firebase"],
-      color: "from-purple-500 to-violet-500"
+      icon: '💾',
+      title: 'Databases',
+      tags: ['MySQL', 'MSSQL', 'Redis'],
     },
     {
-      title: "API Development",
-      icon: <Zap className="w-8 h-8" />,
-      skills: ["REST APIs", "Postman", "OAuth", "Laravel Sanctum Api", "Laravel Paspport Api" ,"API Documentation"],
-      color: "from-pink-500 to-rose-500"
-    },
-     {
-      title: "Security & Best Practices",
-      icon: <Shield className="w-8 h-8" />,
-      skills: ["Authentication", "Authorization", "Secure Coding", "Input Validation", "OWASP", "Middlewares"],
-      color: "from-orange-500 to-amber-500"
+      icon: '🎨',
+      title: 'Styling Frameworks',
+      tags: ['Tailwind CSS', 'Bootstrap', 'CSS3', 'HTML5'],
     },
     {
-      title: "Performance & DevOps",
-      icon: <Zap className="w-8 h-8" />,
-      skills: ["Optimization", "CI/CD", "Testing", "Monitoring", "Performance Tuning", "Security"],
-      color: "from-indigo-500 to-blue-500"
-    }
+      icon: '🔌',
+      title: 'APIs & Real-time',
+      tags: ['API Integrations' ,'RESTful API', 'WebSockets', 'Postman', 'OAuth', 'Sanctum', 'Passport'],
+    },
+    {
+      icon: '☁️',
+      title: 'Cloud & DevOps',
+      tags: ['Azure', 'Firebase', 'Git', 'GitHub', 'Gitlab', 'Linux', 'CI/CD'],
+    },
+    {
+      icon: '💻',
+      title: 'Languages',
+      tags: ['PHP', 'JavaScript', 'ASP.Net', 'C++'],
+    },
+    {
+      icon: '🛡️',
+      title: 'Security & Best Practices',
+      tags: ['Authentication', 'Authorization', 'OWASP', 'Middlewares', 'Secure Coding'],
+    },
   ];
 
-  return (
-    <section id="skills" className="py-20 px-6 bg-slate-900/50">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            My <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Skills</span>
-          </h2>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            A comprehensive toolkit for building modern web applications from concept to deployment
-          </p>
-        </div>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('animate');
+            }, index * 100);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }
+    );
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skillCategories.map((category, index) => (
-            <div key={index} className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 hover:bg-slate-800 transition-all duration-300 group">
-              <div className={`inline-flex p-3 rounded-lg bg-gradient-to-r ${category.color} mb-4 group-hover:scale-110 transition-transform`}>
-                <div className="text-white">
-                  {category.icon}
-                </div>
-              </div>
-              
-              <h3 className="text-xl font-semibold text-white mb-4">{category.title}</h3>
-              
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill, skillIndex) => (
-                  <span 
-                    key={skillIndex}
-                    className="px-3 py-1 bg-slate-700 text-slate-300 rounded-full text-sm hover:bg-slate-600 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
+    const cards = skillsRef.current?.querySelectorAll('.skill-card');
+    cards?.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section id="skills" className="skills">
+      <div className="container">
+        <h2 className="section-title">Technical Skills</h2>
+        <div className="skills-grid" ref={skillsRef}>
+          {skillCategories.map((cat, idx) => (
+            <div className="skill-card" key={idx}>
+              <div className="skill-icon">{cat.icon}</div>
+              <h3>{cat.title}</h3>
+              <div className="skill-tags">
+                {cat.tags.map((tag, ti) => (
+                  <span className="tag" key={ti}>{tag}</span>
                 ))}
               </div>
             </div>

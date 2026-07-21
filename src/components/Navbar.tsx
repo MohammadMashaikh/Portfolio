@@ -1,95 +1,66 @@
-import React, { useState } from "react";
-import Logo from "@/assets/logo.png"; // adjust path if different
+import React, { useState, useEffect } from 'react';
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   const links = [
-    { name: "Home", href: "#hero" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Contact', href: '#contact' },
   ];
 
-  // Smooth scroll with custom duration
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setIsOpen(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.pageYOffset > 100);
 
-    const targetId = href.replace("#", "");
-    const targetElement = document.getElementById(targetId);
-
-    if (targetElement) {
-      const top = targetElement.getBoundingClientRect().top + window.scrollY - 60; // offset for navbar
-
-      window.scrollTo({
-        top,
-        behavior: "smooth"
+      const sections = document.querySelectorAll('section[id]');
+      let current = '';
+      sections.forEach((section) => {
+        const el = section as HTMLElement;
+        if (window.pageYOffset >= el.offsetTop - 200) {
+          current = el.getAttribute('id') || '';
+        }
       });
-    } else if (href === "#hero") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (current) setActiveSection(current);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const target = document.getElementById(targetId);
+    if (target) {
+      const offset = 100;
+      window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+    } else if (href === '#home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   return (
-    <nav className="fixed w-full z-50 bg-[#0f172a] text-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-        <div className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-         <div className="flex items-center space-x-2">
-            <img
-                src={Logo}
-                alt="MA Logo"
-                className="w-40 h-20 rounded-full object-contain"
-            />
-            {/* Optional text label */}
-            {/* <span className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-                Mohammad
-            </span> */}
-            </div>
-        </div>
-
-        <div className="hidden md:flex space-x-8 text-base font-semibold">
+    <nav className={`navbar${scrolled ? ' scrolled' : ''}`} id="navbar">
+      <div className="nav-container">
+        <a href="#home" className="nav-logo" onClick={(e) => handleClick(e, '#home')}>MA</a>
+        <ul className="nav-menu">
           {links.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => handleSmoothScroll(e, link.href)}
-              className="relative hover:text-cyan-400 transition-colors after:block after:h-[2px] after:rounded-full after:bg-gradient-to-r after:from-blue-500 after:via-purple-500 after:to-cyan-400 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300 after:origin-left"
-            >
-              {link.name}
-            </a>
+            <li key={link.name}>
+              <a
+                href={link.href}
+                className={`nav-link${activeSection === link.href.replace('#', '') ? ' active' : ''}`}
+                onClick={(e) => handleClick(e, link.href)}
+              >
+                {link.name}
+              </a>
+            </li>
           ))}
-        </div>
-
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-cyan-300 hover:text-cyan-400"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {isOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+        </ul>
       </div>
-
-      {isOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 bg-[#0f172a] text-lg font-medium">
-          {links.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={(e) => handleSmoothScroll(e, link.href)}
-              className="block py-2 hover:text-cyan-400"
-            >
-              {link.name}
-            </a>
-          ))}
-        </div>
-      )}
     </nav>
   );
 };

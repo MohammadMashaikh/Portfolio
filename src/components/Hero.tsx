@@ -1,94 +1,119 @@
-import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react';
-import MyImage from "../assets/Portfolio_image.jpeg";
+import { useEffect, useRef, useState } from 'react';
 
 const Hero = () => {
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  const [typedText, setTypedText] = useState('');
+  const textArray = ['Laravel Expert', 'Vue.js Developer', 'API Architect', 'Full Stack Specialist'];
+  const textArrayIndexRef = useRef(0);
+  const charIndexRef = useRef(0);
+  const isDeletingRef = useRef(false);
+
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const typeText = () => {
+      const currentText = textArray[textArrayIndexRef.current];
+      let typingDelay = 100;
+
+      if (isDeletingRef.current) {
+        setTypedText(currentText.substring(0, charIndexRef.current - 1));
+        charIndexRef.current--;
+        typingDelay = 50;
+      } else {
+        setTypedText(currentText.substring(0, charIndexRef.current + 1));
+        charIndexRef.current++;
+        typingDelay = 100;
+      }
+
+      if (!isDeletingRef.current && charIndexRef.current === currentText.length) {
+        typingDelay = 2000;
+        isDeletingRef.current = true;
+      } else if (isDeletingRef.current && charIndexRef.current === 0) {
+        isDeletingRef.current = false;
+        textArrayIndexRef.current = (textArrayIndexRef.current + 1) % textArray.length;
+        typingDelay = 500;
+      }
+
+      timeout = setTimeout(typeText, typingDelay);
+    };
+
+    const startTimeout = setTimeout(typeText, 1000);
+    return () => {
+      clearTimeout(startTimeout);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  // Mouse parallax
+  useEffect(() => {
+    const hero = document.querySelector('.hero');
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const moveX = (clientX / window.innerWidth - 0.5) * 20;
+      const moveY = (clientY / window.innerHeight - 0.5) * 20;
+      const gradientBg = document.querySelector('.gradient-bg') as HTMLElement;
+      if (gradientBg) {
+        gradientBg.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      }
+    };
+
+    hero?.addEventListener('mousemove', handleMouseMove as EventListener);
+    return () => hero?.removeEventListener('mousemove', handleMouseMove as EventListener);
+  }, []);
+
+  const handleBtnClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    const btn = e.currentTarget;
+    const ripple = document.createElement('span');
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.classList.add('ripple');
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  };
+
+  const scrollTo = (id: string) => {
+    const target = document.getElementById(id);
+    if (target) window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
   };
 
   return (
-    <section
-      id="hero"
-      className="min-h-screen flex items-center justify-center relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden mt-28 md:mt-14"
-    >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-20">
-        <div
-          className="w-full h-full bg-slate-700 bg-opacity-10"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23334155' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-          }}
-        ></div>
-      </div>
-
-      <div className="text-center z-10 px-6 max-w-4xl">
-        <div className="animate-fade-in">
-          {/* Profile Image */}
-          <div className="flex justify-center mb-8 mt-12">
-            <img
-              src={MyImage}
-              alt="Mohammad Al-Mashaikh"
-              className="w-[400px] h-[400px] rounded-full border-4 border-blue-500 shadow-lg object-center"
-            />
-          </div>
-
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-              Mohammad Al-Mashaikh
-            </span>
+    <section id="home" className="hero">
+      <div className="gradient-bg" />
+      <div className="hero-content">
+        <div className="hero-text">
+          <h1 className="hero-title">
+            Hi, I'm <span className="gradient-text">Mohammad Al-Mashaikh</span>
           </h1>
-          <h2 className="text-2xl md:text-3xl text-slate-300 mb-8 font-light">
-            Web Application Developer
-          </h2>
-          <p className="text-lg text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Building robust, scalable web applications with PHP and Laravel.
-            Focused on clean code, performance, and real-world solutions.
+          <p className="hero-subtitle">
+            Full Stack Developer | <span id="typed-text">{typedText}</span>
+            <span className="cursor">|</span>
           </p>
-
-          {/* Social Links */}
-          <div className="flex justify-center space-x-6 mb-12">
-            <a
-              href="https://github.com/MohammadMashaikh"
-              className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110"
-            >
-              <Github className="w-6 h-6 text-slate-300 group-hover:text-white" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mohammad-mashaikh/"
-              className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110"
-            >
-              <Linkedin className="w-6 h-6 text-slate-300 group-hover:text-white" />
-            </a>
-            <a
-              href="mailto:mohammadmashaikh@outlook.com"
-              className="group p-3 bg-slate-800 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110"
-            >
-              <Mail className="w-6 h-6 text-slate-300 group-hover:text-white" />
-            </a>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <p className="hero-description">
+            Crafting robust and scalable full stack solutions with Laravel and Vue.js.
+            Passionate about building efficient APIs and seamless user experiences.
+          </p>
+          <div className="hero-buttons">
             <button
-              onClick={() => scrollToSection('projects')}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-            >
-              View My Work
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="px-8 py-3 border-2 border-blue-500 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+              className="btn btn-primary"
+              onClick={(e) => { handleBtnClick(e); scrollTo('contact'); }}
             >
               Get In Touch
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={(e) => { handleBtnClick(e); scrollTo('projects'); }}
+            >
+              View My Work
             </button>
           </div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <ChevronDown className="w-8 h-8 text-slate-400" />
+      <div className="scroll-indicator">
+        <div className="mouse" />
       </div>
     </section>
   );
