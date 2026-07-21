@@ -1083,3 +1083,207 @@ section {
   .nav-menu { gap: 10px; }
   .nav-link { font-size: 0.8rem; }
 }
+
+/* ======================================================
+   CUSTOM NOTIFICATION
+   ====================================================== */
+.notif-wrapper {
+  position: fixed;
+  bottom: 110px;
+  right: 30px;
+  z-index: 3000;
+  width: 340px;
+  background: rgba(20, 20, 32, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 20px 20px 6px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(102, 126, 234, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  /* hidden by default */
+  opacity: 0;
+  transform: translateX(calc(100% + 40px));
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+.notif-wrapper.notif-show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+}
+
+/* success tint */
+.notif-success {
+  border-color: rgba(102, 234, 141, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(79, 172, 97, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+/* error tint */
+.notif-error {
+  border-color: rgba(245, 87, 108, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(245, 87, 108, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ambient glow blob */
+.notif-glow {
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.notif-success .notif-glow {
+  background: radial-gradient(circle, rgba(79, 200, 112, 0.18) 0%, transparent 70%);
+}
+.notif-error .notif-glow {
+  background: radial-gradient(circle, rgba(245, 87, 108, 0.18) 0%, transparent 70%);
+}
+
+/* SVG animated icon */
+.notif-icon-ring {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+}
+.notif-icon {
+  width: 44px;
+  height: 44px;
+}
+
+/* Circle stroke animation */
+.notif-circle {
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  stroke-width: 3;
+  transform-origin: center;
+}
+.notif-success .notif-circle {
+  stroke: #4ade80;
+}
+.notif-error .notif-circle-err {
+  stroke: #f5576c;
+}
+.notif-show .notif-circle {
+  animation: drawCircle 0.6s ease forwards 0.1s;
+}
+@keyframes drawCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Checkmark animation */
+.notif-check {
+  stroke: #4ade80;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+}
+.notif-show .notif-check {
+  animation: drawCheck 0.4s ease forwards 0.65s;
+}
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Cross animation */
+.notif-cross {
+  stroke: #f5576c;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 35;
+  stroke-dashoffset: 35;
+}
+.notif-show .notif-cross {
+  animation: drawCheck 0.35s ease forwards 0.65s;
+}
+
+/* Text */
+.notif-text {
+  flex: 1;
+  min-width: 0;
+  padding-top: 2px;
+}
+.notif-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.notif-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.notif-desc strong {
+  color: var(--text-primary);
+}
+
+/* Close button */
+.notif-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 2px;
+}
+.notif-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+/* Progress bar */
+.notif-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 0 0 20px 20px;
+  width: 100%;
+}
+.notif-success .notif-progress {
+  background: linear-gradient(90deg, #4ade80, #22d3ee);
+}
+.notif-error .notif-progress {
+  background: linear-gradient(90deg, #f5576c, #f093fb);
+}
+.notif-progress-run {
+  animation: progressDrain 5s linear forwards 0.2s;
+}
+@keyframes progressDrain {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
+@media (max-width: 480px) {
+  .notif-wrapper {
+    width: calc(100vw - 40px);
+    right: 20px;
+    bottom: 90px;
+  }
+}

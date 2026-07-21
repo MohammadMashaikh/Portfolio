@@ -1,17 +1,84 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { useToast } from '@/hooks/use-toast';
-import { Mail, MapPin, Phone, Send } from 'lucide-react';
 
+/* ── Custom Notification ─────────────────────────────── */
+type NotifType = 'success' | 'error';
+
+interface NotifProps {
+  type: NotifType;
+  visible: boolean;
+  senderName: string;
+  onClose: () => void;
+}
+
+const Notification = ({ type, visible, senderName, onClose }: NotifProps) => {
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (visible) {
+      timerRef.current = setTimeout(onClose, 5000);
+    }
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [visible, onClose]);
+
+  return (
+    <div className={`notif-wrapper ${visible ? 'notif-show' : ''} notif-${type}`}>
+      <div className="notif-glow" />
+
+      {/* Icon */}
+      <div className="notif-icon-ring">
+        {type === 'success' ? (
+          <svg className="notif-icon" viewBox="0 0 52 52">
+            <circle className="notif-circle" cx="26" cy="26" r="25" fill="none" />
+            <path className="notif-check" fill="none" d="M14 27l8 8 16-16" />
+          </svg>
+        ) : (
+          <svg className="notif-icon" viewBox="0 0 52 52">
+            <circle className="notif-circle notif-circle-err" cx="26" cy="26" r="25" fill="none" />
+            <path className="notif-cross" fill="none" d="M16 16 36 36 M36 16 16 36" />
+          </svg>
+        )}
+      </div>
+
+      {/* Text */}
+      <div className="notif-text">
+        {type === 'success' ? (
+          <>
+            <p className="notif-title">Message Delivered! 🎉</p>
+            <p className="notif-desc">
+              Thanks <strong>{senderName || 'there'}</strong>! I'll get back to you very soon.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="notif-title">Something went wrong</p>
+            <p className="notif-desc">Please try again or reach me directly via email.</p>
+          </>
+        )}
+      </div>
+
+      {/* Close */}
+      <button className="notif-close" onClick={onClose} aria-label="Dismiss">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      {/* Progress bar */}
+      <div className={`notif-progress ${visible ? 'notif-progress-run' : ''}`} />
+    </div>
+  );
+};
+
+/* ── Contact Section ─────────────────────────────────── */
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const [notif, setNotif] = useState<{ visible: boolean; type: NotifType }>({ visible: false, type: 'success' });
+
+  const closeNotif = () => setNotif(n => ({ ...n, visible: false }));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,31 +88,29 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    const serviceID = 'service_8dluq1w';
-    const templateID = 'template_5kbxylb';
-    const publicKey = '-08J8OTZy12fiPVAH';
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      reply_to: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      name: formData.name,
+      email: formData.email,
+    };
 
-    emailjs.send(serviceID, templateID, formData, publicKey)
+    emailjs.send('service_8dluq1w', 'template_5kbxylb', templateParams, '-08J8OTZy12fiPVAH')
       .then(() => {
-        toast({
-          title: "Message sent!",
-          description: "Thank you for your message! I'll get back to you soon.",
-        });
         setFormData({ name: '', email: '', subject: '', message: '' });
         setLoading(false);
+        setNotif({ visible: true, type: 'success' });
       })
       .catch((error) => {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Oops! Something went wrong. Please try again later.",
-        });
         console.error('EmailJS error:', error);
         setLoading(false);
+        setNotif({ visible: true, type: 'error' });
       });
   };
 
-  // SVG send icon
   const SendIcon = () => (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M18 2L9 11M18 2L12 18L9 11M18 2L2 8L9 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -54,6 +119,14 @@ const Contact = () => {
 
   return (
     <>
+      {/* ── Custom notification ── */}
+      <Notification
+        type={notif.type}
+        visible={notif.visible}
+        senderName={formData.name}
+        onClose={closeNotif}
+      />
+
       <section id="contact" className="contact">
         <div className="container">
           <h2 className="section-title">Let's Connect</h2>
@@ -65,53 +138,17 @@ const Contact = () => {
             <form className="contact-form" id="contactForm" onSubmit={handleSubmit}>
               <div className="form-row">
                 <div className="form-group">
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Your Name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    disabled={loading}
-                  />
+                  <input type="text" id="name" name="name" placeholder="Your Name" required value={formData.name} onChange={handleChange} disabled={loading} />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Your Email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    disabled={loading}
-                  />
+                  <input type="email" id="email" name="email" placeholder="Your Email" required value={formData.email} onChange={handleChange} disabled={loading} />
                 </div>
               </div>
               <div className="form-group">
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  placeholder="Subject"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  disabled={loading}
-                />
+                <input type="text" id="subject" name="subject" placeholder="Subject" required value={formData.subject} onChange={handleChange} disabled={loading} />
               </div>
               <div className="form-group">
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  placeholder="Your Message"
-                  required
-                  value={formData.message}
-                  onChange={handleChange}
-                  disabled={loading}
-                />
+                <textarea id="message" name="message" rows={6} placeholder="Your Message" required value={formData.message} onChange={handleChange} disabled={loading} />
               </div>
               <button type="submit" className="btn btn-primary btn-send" disabled={loading}>
                 <span>{loading ? 'Sending...' : 'Send Message'}</span>
@@ -143,13 +180,7 @@ const Contact = () => {
       </div>
 
       {/* WhatsApp Chat Button */}
-      <a
-        href="https://wa.me/+962789447358?text=Hello%20Mohammad!"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="whatsapp-button"
-        title="Chat on WhatsApp"
-      >
+      <a href="https://wa.me/+962789447358?text=Hello%20Mohammad!" target="_blank" rel="noopener noreferrer" className="whatsapp-button" title="Chat on WhatsApp">
         <svg viewBox="0 0 24 24" fill="currentColor">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.304-1.654a11.882 11.882 0 005.713 1.456h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
         </svg>
